@@ -1,38 +1,22 @@
-def parse_input
-  numbers = DATA.readline.chomp.split(",").map(&:to_i)
-  boards =
-    DATA.map(&:chomp)
-      .slice_before(&:empty?)
-      .map { |arr| arr.reject(&:empty?) }
-      .map { |arr| arr.map(&:split).map { |row| row.map(&:to_i) } }
+numbers = DATA.readline.chomp.split(",").map(&:to_i)
 
-  [numbers, boards]
-end
+boards =
+  DATA.map(&:chomp)
+    .slice_before(&:empty?)
+    .map { |arr| arr.reject(&:empty?) }
+    .map { |arr| arr.map(&:split).map { |row| row.map(&:to_i) } }
 
-numbers, boards = parse_input
-
-test = numbers.shift(5)
-loop do
-  puts "testing #{test}"
+numbers.each_with_object([]) do |i, hx|
+  hx << i
   boards.each_with_index do |board, idx|
-    # test rows and cols together
     (board + board.transpose).each do |alignment|
-      if alignment == (alignment & test)
-        puts "winner: board #{idx}"
-        puts "-----"
-        puts alignment.join(", ")
-        puts "-----"
-        puts board.map { |row| row.join(", ") }
-        puts "-----"
-        score = (board.flatten - test).sum * test.last
-        puts "score: #{score}"
-        return nil
+      if alignment == (alignment & hx)
+        score = (board.flatten - hx).sum * i
+        puts "winner: board #{idx}, score: #{score}"
+        return :stop
       end
     end
   end
-
-  break if numbers.empty?
-  test << numbers.shift
 end
 
 __END__

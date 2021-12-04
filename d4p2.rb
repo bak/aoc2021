@@ -1,39 +1,23 @@
-def parse_input
-  numbers = DATA.readline.chomp.split(",").map(&:to_i)
-  boards =
-    DATA.map(&:chomp)
-      .slice_before(&:empty?)
-      .map { |arr| arr.reject(&:empty?) }
-      .map { |arr| arr.map(&:split).map { |row| row.map(&:to_i) } }
+numbers = DATA.readline.chomp.split(",").map(&:to_i)
 
-  [numbers, boards]
-end
+boards =
+  DATA.map(&:chomp)
+    .slice_before(&:empty?)
+    .map { |arr| arr.reject(&:empty?) }
+    .map { |arr| arr.map(&:split).map { |row| row.map(&:to_i) } }
 
-numbers, boards = parse_input
-
-winning_boards = []
-test = numbers.shift(5)
-while numbers.any?
+numbers.each_with_object({hx: [], winning_boards: []}) do |i, state|
+  state[:hx] << i
   boards.each_with_index do |board, idx|
     (board.transpose + board).each do |alignment|
-      if (alignment == (alignment & test)) && !winning_boards.include?(idx)
-        winning_boards << idx
-        puts "current numbers: #{test}"
-        puts "-----"
-        puts "winner: board #{idx}"
-        puts "-----"
-        puts alignment.join(", ")
-        puts "-----"
-        puts board.map { |row| row.join(", ") }
-        puts "-----"
-        score = (board.flatten - test).sum * test.last
-        puts "score: #{score}"
-        puts
-      end
+      next unless alignment == alignment & state[:hx]
+      next if state[:winning_boards].include?(idx)
+
+      state[:winning_boards] << idx
+      score = (board.flatten - state[:hx]).sum * i
+      puts "winner: board #{idx}, score: #{score}"
     end
   end
-
-  test << numbers.shift
 end
 
 __END__
