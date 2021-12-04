@@ -1,4 +1,7 @@
-puts DATA.map(&:chomp).map(&:to_i).each_cons(3).each_cons(2).count { |p| p[1].sum > p[0].sum }
+puts DATA.map(&:to_i)
+  .each_cons(3)
+  .each_cons(2)
+  .count { |p| p[1].sum > p[0].sum }
 
 __END__
 140

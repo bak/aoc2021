@@ -1,4 +1,6 @@
-puts DATA.map(&:chomp).map(&:to_i).each_cons(2).count { |p| p[1] > p[0] }
+puts DATA.map(&:to_i)
+  .each_cons(2)
+  .count { |p| p[1] > p[0] }
 
 __END__
 140
