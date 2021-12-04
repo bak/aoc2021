@@ -8,8 +8,9 @@ DATA
       .sort_by(&:last).reverse
   }
   .tap { |sorted|
-    puts "gamma is: #{sorted.map(&:first).map(&:first).join}"
-    puts "epsilon is: #{sorted.map(&:last).map(&:first).join}"
+    gamma = sorted.map(&:first).map(&:first).join
+    epsilon = sorted.map(&:last).map(&:first).join
+    puts "0b#{gamma} * 0b#{epsilon} (as decimal): #{gamma.to_i(2) * epsilon.to_i(2)}"
   }
 
 __END__

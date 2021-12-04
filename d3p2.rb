@@ -28,8 +28,10 @@ end
 
 ROWS = DATA.map(&:chomp)
 
-puts " O2: " + find_match(bit_criteria: :more, default: "1", rows: ROWS)
-puts "CO2: " + find_match(bit_criteria: :less, default: "0", rows: ROWS)
+o2 = find_match(bit_criteria: :more, default: "1", rows: ROWS)
+co2 = find_match(bit_criteria: :less, default: "0", rows: ROWS)
+
+puts "0b#{o2} * 0b#{co2} (as decimal): #{o2.to_i(2) * co2.to_i(2)}"
 
 __END__
 101001100010
