@@ -5,17 +5,17 @@ state = DATA.readline.chomp
     puts "Initial state: #{init.join(", ")}"
   }
 
-map = Hash.new(0).merge(state.tally)
+tally = Hash.new(0).merge(state.tally)
 
 1.upto(256) { |day|
-  reached_zero = map[0]
+  reached_zero = tally[0]
   0.upto(7) { |n|
-    map[n] = map[n + 1]
+    tally[n] = tally[n + 1]
   }
-  map[6] += reached_zero
-  map[8] = reached_zero
+  tally[6] += reached_zero
+  tally[8] = reached_zero
 
-  puts "After #{day}: #{map} (#{map.values.sum})"
+  puts "After #{day}: #{tally} (#{tally.values.sum})"
 }
 
 __END__
